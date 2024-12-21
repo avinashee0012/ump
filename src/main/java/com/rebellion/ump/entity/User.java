@@ -24,9 +24,8 @@ public class User {
     private String userid;
     @Column
     private String password;
-    // Not familiar with suitable DATATYPE for an image
-    // @Column
-    // private DATATYPE dp;
+    @Column
+    private String dp;
     @Column
     private Boolean tfa;
 }

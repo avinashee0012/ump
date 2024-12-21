@@ -39,10 +39,10 @@
                         <td><label class="m-2" for="password">Password: </label></td>
                         <td id="password"><br></td>
                     </tr>
-                    <!-- <tr>
+                    <tr>
                         <td><label class="m-2" for="dp">Profile Pic: </label></td>
-                        <td>{{profile pic}}<br></td>
-                    </tr> -->
+                        <td id="dp"><img id="dp_img" alt="dp" height="100" width="50"></td>
+                    </tr>
                     <tr>
                         <td><label class="m-2" for="tfa">2FA: </label></td>
                         <td id="tfa"><br></td>
@@ -62,8 +62,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         async function getData() {
-            localStorage.setItem("userid", "avinashee0012");
-
             let fetched_user_id = localStorage.getItem("userid");
             const url = "http://localhost:8080/view_user/" + fetched_user_id;
             try {
@@ -84,6 +82,8 @@
                 userid.innerText = result.userid;
                 var password = document.getElementById("password");
                 password.innerText = result.password;
+                var dp_img = document.getElementById("dp_img");
+                dp_img.setAttribute("src", result.dp)
                 var tfa = document.getElementById("tfa");
                 tfa.innerText = result.tfa;
             } catch (error) {
