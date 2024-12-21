@@ -38,7 +38,5 @@ public class MainController {
     public ModelAndView getViewUserPage() {
         return new ModelAndView("redirect:/view_user.html");
     }
-
-
-
+    
 }

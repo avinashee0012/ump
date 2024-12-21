@@ -7,7 +7,7 @@
 
     <title>Register</title>
   </head>
-  <body>
+  <body onload="getData()">
     <div class="container-fluid text-center text-light bg-dark p-3">
         <a href="/" class="text-decoration-none text-light"><h2>User Management Portal</h2></a>
     </div>
@@ -21,31 +21,31 @@
                     <th class="w-75"></th>
                     <tr>
                         <td><label class="m-2" for="name">Full Name: </label></td>
-                        <td>{{full name}}<br></td>
+                        <td id="name"><br></td>
                     </tr>
                     <tr>
                         <td><label class="m-2" for="mobile">Mobile: </label></td>
-                        <td>{{mobile}}<br></td>
+                        <td id="mobile"><br></td>
                     </tr>
                     <tr>
                         <td><label class="m-2" for="email">Email: </label></td>
-                        <td>{{email}}<br></td>
+                        <td id="email"><br></td>
                     </tr>
                     <tr>
                         <td><label class="m-2" for="userid">User Id: </label></td>
-                        <td>{{user id}}<br></td>
+                        <td id="userid"><br></td>
                     </tr>
                     <tr>
                         <td><label class="m-2" for="password">Password: </label></td>
-                        <td>{{password}}<br></td>
+                        <td id="password"><br></td>
                     </tr>
                     <!-- <tr>
                         <td><label class="m-2" for="dp">Profile Pic: </label></td>
                         <td>{{profile pic}}<br></td>
                     </tr> -->
                     <tr>
-                        <td><label class="m-2" for="2fa">2FA: </label></td>
-                        <td>{{2fa status}}<br></td>
+                        <td><label class="m-2" for="tfa">2FA: </label></td>
+                        <td id="tfa"><br></td>
                     </tr>
                 </table>
             </form>
@@ -60,5 +60,36 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    </body>
+    <script>
+        async function getData() {
+            localStorage.setItem("userid", "avinashee0012");
+
+            let fetched_user_id = localStorage.getItem("userid");
+            const url = "http://localhost:8080/view_user/" + fetched_user_id;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                var name = document.getElementById("name");
+                name.innerText = result.name;
+                var mobile = document.getElementById("mobile");
+                mobile.innerText = result.mobile;
+                var email = document.getElementById("email");
+                email.innerText = result.email;
+                var userid = document.getElementById("userid");
+                userid.innerText = result.userid;
+                var password = document.getElementById("password");
+                password.innerText = result.password;
+                var tfa = document.getElementById("tfa");
+                tfa.innerText = result.tfa;
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+    </script>    
+</body>
 </html>

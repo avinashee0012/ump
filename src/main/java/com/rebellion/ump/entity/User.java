@@ -27,6 +27,6 @@ public class User {
     // Not familiar with suitable DATATYPE for an image
     // @Column
     // private DATATYPE dp;
-    @Column(name="2fa")
-    private boolean tfa;
+    @Column
+    private Boolean tfa;
 }

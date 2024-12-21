@@ -5,7 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.rebellion.ump.entity.User;
 
+
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
-
+    User findByUserid(String userid);
 }
