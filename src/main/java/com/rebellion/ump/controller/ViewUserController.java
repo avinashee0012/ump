@@ -3,7 +3,7 @@ package com.rebellion.ump.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rebellion.ump.entity.User;
-import com.rebellion.ump.repository.UserRepo;
+import com.rebellion.ump.service.UserService;
 
 import java.util.List;
 
@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 public class ViewUserController {
 
-    private UserRepo userRepo;
+    private UserService userService;
 
-    public ViewUserController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public ViewUserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("view_user/{userid}")
-    public User getOneUser(@PathVariable String userid) {
-        return userRepo.findByUserid(userid);
+    @GetMapping("view_user/{email}")
+    public User getOneUser(@PathVariable String email) {
+        return userService.searchByEmail(email);
     }
 
     @GetMapping("view_user/all")
     public List<User> getAllUsers() {
-        return userRepo.findAll();
+        return userService.searchAllUsers();
     }
     
 }

@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
     // Fix Required: shows .html in URL
+    // If logged-in already, route to Users page else to login page
     @GetMapping("")
     public ModelAndView getHomePage() {
-        return new ModelAndView("redirect:/index.html");
+        return new ModelAndView("redirect:/login.html");
     }
 
-    // Fix Required: shows .html in URL
-    @GetMapping("login")
+    @GetMapping("/login")
     public ModelAndView getLoginPage() {
         return new ModelAndView("redirect:/login.html");
     }

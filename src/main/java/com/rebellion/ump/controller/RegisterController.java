@@ -3,16 +3,12 @@ package com.rebellion.ump.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.rebellion.ump.entity.User;
-import com.rebellion.ump.repository.UserRepo;
+import com.rebellion.ump.service.EmailService;
+import com.rebellion.ump.service.UserService;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import javax.mail.MessagingException;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,36 +17,52 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("register")
 public class RegisterController {
 
-    private UserRepo userRepo;
+    private UserService userService;
 
-    public RegisterController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public RegisterController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping(path = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ModelAndView postRegisterForm(@RequestParam String name, @RequestParam String mobile, @RequestParam String email,
-            @RequestParam String userid, @RequestParam String password, @RequestParam(defaultValue = "false") boolean tfa, @RequestParam MultipartFile dp) throws IOException {
+    public ModelAndView postRegisterForm(@RequestParam String name, @RequestParam String mobile, @RequestParam String email, @RequestParam String password, @RequestParam(defaultValue = "false") boolean tfa) throws MessagingException {
         User user = new User();
-        StringBuilder sb = new StringBuilder();
-        DataInputStream input = new DataInputStream( dp.getInputStream() );
-       try {
-            while( true ) {
-                sb.append( Integer.toBinaryString( input.readByte() ) );
-            }
-       } catch ( Exception e) {
-            System.out.println(e);
-       } finally {
-            input.close();
-       }
+        String errorRedirect = "redirect:/register.html?status=error";
+        if (name.equals("") || name == null) {
+            return new ModelAndView(errorRedirect);
+        }
+        if (mobile.equals("") || mobile == null) {
+            return new ModelAndView(errorRedirect);
+        }
+        if (email.equals("") || email == null) {
+            return new ModelAndView(errorRedirect);
+        }
+        if (password.equals("") || password == null) {
+            return new ModelAndView(errorRedirect);
+        }
+
+        // This validation needs to be taken to client-side
+        if(isUnique(email)) {
+            user.setEmail(email);
+        } else {
+            return new ModelAndView(errorRedirect);
+        }
         user.setName(name);
         user.setMobile(mobile);
-        user.setEmail(email);
-        user.setUserid(userid);
         user.setPassword(password);
-        user.setTfa(tfa);
-        user.setDp(sb.toString());
-        userRepo.save(user);
-        return new ModelAndView("redirect:/register?success");
+        // DP Algo to be created
+        EmailService.sendVerificationEmail(email);
+        userService.saveUser(user);
+        
+        return new ModelAndView("redirect:/register.html?status=success");
     }
+    
+    // This validation needs to be taken to client-side
+    private boolean isUnique(String email) {
+        if(userService.searchByEmail(email) != null){
+            return false;
+        } 
+        return true;
+        
+    }    
 
 }

@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rebellion.ump.entity.User;
-import com.rebellion.ump.repository.UserRepo;
+import com.rebellion.ump.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -17,16 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("login")
 public class LoginController {
 
-    private UserRepo userRepo;
+    private UserService userService;
 
-    public LoginController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public LoginController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping(path = "/auth")
-    public ResponseEntity<HttpStatus> postLoginAuth(@RequestParam String userid, @RequestParam String password) {
-        if(userid != null && password != null){
-            User user = userRepo.findByUserid(userid);
+    public ResponseEntity<HttpStatus> postLoginAuth(@RequestParam String email, @RequestParam String password) {
+        if(email != null && password != null){
+            User user = userService.searchByEmail(email);
             if(user.getPassword().equals(password)){
                 return new ResponseEntity<>(HttpStatus.ACCEPTED);
             }

@@ -18,14 +18,15 @@ public class User {
     private String name;
     @Column
     private String mobile;
-    @Column
+    @Column(unique=true)
     private String email;
     @Column
-    private String userid;
+    private Boolean isVerified = false;
     @Column
     private String password;
+    // Fix Required: Image is not saving and displaying properly
+    // @Column
+    // private String dp;
     @Column
-    private String dp;
-    @Column
-    private Boolean tfa;
+    private Boolean tfa = false;
 }

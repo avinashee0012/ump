@@ -1,64 +1,71 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Login</title>
-  </head>
-  <body>
-    <div class="container-fluid text-center text-light bg-dark p-3">
-        <a href="/" class="text-decoration-none text-light"><h2>User Management Portal</h2></a>
+</head>
+
+<body>
+    <div class="container-fluid text-light bg-dark p-3">
+        <h3 class="d-flex justify-content-between mx-3">
+            <span>UMP</span>
+            <span><a href="/register"><button class="btn btn-outline-secondary">Register</button></a></span>
+        </h3>
     </div>
 
     <div class="container-fluid">
-        <div class="container w-50 border">
-            <h3 class="text-center mt-3">Login Form</h3>
-                <table class="w-100">
-                    <th class="w-25"></th>
-                    <th class="w-75"></th>
-                    <tr>
-                        <td><label class="m-2" for="userid">User Id: </label></td>
-                        <td><input class="w-100" type="text" name="userid" id="userid"><br></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="password">Password: </label></td>
-                        <td><input class="w-100" type="password" name="password" id="password"><br></td>
-                    </tr>
-                </table>
-                <button  class="btn btn-primary m-2 w-100 text-center" id="login">Login</button>
+        <div class="container w-50 border p-3">
+            <h3 class="text-center my-2">Login Form</h3>
+            <hr>
+            <table class="w-100">
+                <th class="w-25"></th>
+                <th class="w-75"></th>
+                <tr>
+                    <!-- If userid is not verified, show client side error on focusout -->
+                    <td><label class="m-2" for="email">Email: </label></td>
+                    <td><input class="w-100" type="email" name="email" id="email"><br></td>
+                </tr>
+                <tr>
+                    <td><label class="m-2" for="password">Password: </label></td>
+                    <td><input class="w-100" type="password" name="password" id="password"><br></td>
+                </tr>
+            </table>
+            <button class="btn btn-primary m-2 w-100 text-center" id="login">Login</button>
         </div>
     </div>
 
     <div class="container-fluid text-light bg-dark p-3">
-        <a href="/register" class="text-decoration-none link-secondary"><button>Register</button></a>
-        <a href="/login" class="text-decoration-none link-secondary"><button>Login</button></a>
-        <a href="/view_user" class="text-decoration-none link-secondary"><button>View User</button></a>
-        <a href="/users" class="text-decoration-none link-secondary"><button>Users</button></a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script>
         var login = document.getElementById("login").addEventListener("click", authLogin);
+
         function authLogin(e) {
             e.preventDefault();
             var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 202) {
-                    alert("Logged-in successfully!");
-                    localStorage.setItem("userid", userid);
-                    location.href = "http://localhost:8080/view_user.html";
-                } else if(this.readyState == 4){
-                    alert("Incorrect Userid or Password!");
+                    localStorage.setItem("email", email);
+                    location.href = "http://localhost:8080/users.html";
+                } else if (this.readyState == 4) {
+                    alert("Incorrect Email or Password!");
                 }
             };
-            var userid = document.getElementById("userid").value;
+            var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
-            xhr.open("POST", `http://localhost:8080/login/auth?userid=${userid}&password=${password}`, true);
+            xhr.open("POST", `http://localhost:8080/login/auth?email=${email}&password=${password}`, true);
             xhr.send();
-            
+
         }
-    </script>    
+    </script>
 </body>
+
 </html>
