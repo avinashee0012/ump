@@ -23,6 +23,9 @@ public class EmailService {
         String fromEmail = "rebelliondevemail728@gmail.com";
         String fromPassword = "wwjqyjzfqexvwaeb";
 
+        // String fromEmail = "YOUR_EMAIL";
+        // String fromPassword = "YOUR_PASSWORD";
+
         // Create a property for Session object 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
