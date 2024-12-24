@@ -20,8 +20,8 @@ public class EmailService {
     // This needs to return status based on response of successful receipt of email
     public static ResponseEntity<?> sendVerificationEmail(String to) throws MessagingException {
 
-        String fromEmail = "rebelliondevemail728@gmail.com";
-        String fromPassword = "wwjqyjzfqexvwaeb";
+        String fromEmail = "YOUR_EMAIL";
+        String fromPassword = "YOUR_PASSWORD";
 
         // Create a property for Session object 
         Properties props = new Properties();
