@@ -20,8 +20,8 @@ public class EmailService {
     // This needs to return status based on response of successful receipt of email
     public static ResponseEntity<?> sendVerificationEmail(String to) throws MessagingException {
 
-        final String fromEmail = "YOUR_EMAIL";
-        final String fromPassword = "YOUR_PASSWORD";
+        String fromEmail = "rebelliondevemail728@gmail.com";
+        String fromPassword = "wwjqyjzfqexvwaeb";
 
         // Create a property for Session object 
         Properties props = new Properties();
@@ -42,17 +42,24 @@ public class EmailService {
         //  Create a session object with property
         Session session = Session.getInstance(props, auth);
 
+        // Verification URL Algo
+        Date dateNow = new Date();
+        Integer randomInteger = Integer.valueOf((int) Math.random());
+        String token = randomInteger.hashCode() + "." + to.hashCode() + "." + dateNow.hashCode();
+
+        String url = "http://localhost:8080/register/verify/" + to + "?token=" + token;
+
+        String msg = String.format("Hello,\n\nPlease click the link below to verify email:\n\n%s\n\nRegards,\nUMP Registration Service", url);
+
         // Create a MimeMessage for email in the session
         MimeMessage email = new MimeMessage(session);
 
         email.setFrom(new InternetAddress(fromEmail));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject("UMP Email Verification");
-        email.setText("This is the test body! {verificationURL} will be placed here.");
-        email.setSentDate(new Date());
-
+        email.setText(msg);
         Transport.send(email);
 
-        return new ResponseEntity<>(email, HttpStatus.OK);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }

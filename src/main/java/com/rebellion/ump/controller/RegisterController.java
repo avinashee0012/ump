@@ -8,10 +8,15 @@ import com.rebellion.ump.entity.User;
 import com.rebellion.ump.service.EmailService;
 import com.rebellion.ump.service.UserService;
 
+import java.util.HashMap;
+
 import javax.mail.MessagingException;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("register")
@@ -23,6 +28,7 @@ public class RegisterController {
         this.userService = userService;
     }
 
+    @SuppressWarnings("null")
     @PostMapping(path = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ModelAndView postRegisterForm(@RequestParam String name, @RequestParam String mobile, @RequestParam String email, @RequestParam String password, @RequestParam(defaultValue = "false") boolean tfa) throws MessagingException {
         User user = new User();
@@ -50,11 +56,27 @@ public class RegisterController {
         user.setMobile(mobile);
         user.setPassword(password);
         // DP Algo to be created
-        EmailService.sendVerificationEmail(email);
+        user.setVerificationToken(EmailService.sendVerificationEmail(email).getBody().toString());
         userService.saveUser(user);
         
         return new ModelAndView("redirect:/register.html?status=success");
     }
+
+    @GetMapping("verify/{email}")
+    public ModelAndView verifyEmail(@PathVariable String email, @RequestParam String token) {
+        if(userService.searchByEmail(email) != null){
+            User user = userService.searchByEmail(email);
+            if (!user.getIsVerified() && token.equals(user.getVerificationToken())) {
+                user.setIsVerified(true);
+                userService.saveUser(user);
+                return new ModelAndView("redirect:/verification.html?status=success");
+            } else if (user.getIsVerified()) {
+                return new ModelAndView("redirect:/verification.html?status=alreadyVerified");
+            }
+        }
+        return new ModelAndView("redirect:/verification.html?status=error");
+    }
+    
     
     // This validation needs to be taken to client-side
     private boolean isUnique(String email) {
@@ -63,6 +85,6 @@ public class RegisterController {
         } 
         return true;
         
-    }    
+    }
 
 }

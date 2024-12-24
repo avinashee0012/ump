@@ -1,13 +1,16 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Register</title>
-  </head>
-  <body onload="getData()">
+</head>
+
+<body onload="getData()">
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
             <span>UMP</span>
@@ -19,47 +22,47 @@
         <div class="container w-50 border">
             <h3 class="text-center mt-3">View User</h3>
             <hr>
-            <form class="p-3" action="/register" method="post">
-                <table class="w-100">
-                    <th class="w-25"></th>
-                    <th class="w-75"></th>
-                    <tr>
-                        <td><label class="m-2" for="name">Full Name: </label></td>
-                        <td id="name"><br></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="mobile">Mobile: </label></td>
-                        <td id="mobile"><br></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="email">Email: </label></td>
-                        <td id="email"><br></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="password">Password: </label></td>
-                        <td id="password"><br></td>
-                    </tr>
-                    <!-- <tr>
-                        <td><label class="m-2" for="dp">Profile Pic: </label></td>
+            <table class="w-100 table table-hover">
+                <th class="w-25"></th>
+                <th class="w-75"></th>
+                <tr>
+                    <th><label class="m-2" for="name">Full Name: </label></th>
+                    <td id="name"><br></td>
+                </tr>
+                <tr>
+                    <th><label class="m-2" for="mobile">Mobile: </label></th>
+                    <td id="mobile"><br></td>
+                </tr>
+                <tr>
+                    <th><label class="m-2" for="email">Email: </label></th>
+                    <td id="email"><br></td>
+                </tr>
+                <tr>
+                    <th><label class="m-2" for="password">Password: </label></th>
+                    <td id="password"><br></td>
+                </tr>
+                <!-- <tr>
+                        <th><label class="m-2" for="dp">Profile Pic: </label></th>
                         <td id="dp"><img id="dp_img" alt="dp" height="100" width="50"></td>
                     </tr> -->
-                    <tr>
-                        <td><label class="m-2" for="tfa">TFA: </label></td>
-                        <td id="tfa"><br></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="isVerified">isVerified: </label></td>
-                        <td id="isVerified"><br></td>
-                    </tr>
-                </table>
-            </form>
+                <tr>
+                    <th><label class="m-2" for="tfa">TFA: </label></th>
+                    <td id="tfa"><br></td>
+                </tr>
+                <tr>
+                    <th><label class="m-2" for="isVerified">isVerified: </label></th>
+                    <td id="isVerified"><br></td>
+                </tr>
+            </table>
         </div>
     </div>
 
     <div class="container-fluid text-light bg-dark p-3">
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script>
         async function getData() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -92,6 +95,7 @@
                 console.error(error.message);
             }
         }
-    </script>    
+    </script>
 </body>
+
 </html>
