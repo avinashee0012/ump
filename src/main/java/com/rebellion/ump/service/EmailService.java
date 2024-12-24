@@ -20,6 +20,9 @@ public class EmailService {
     // This needs to return status based on response of successful receipt of email
     public static ResponseEntity<?> sendVerificationEmail(String to) throws MessagingException {
 
+        final String fromEmail = "YOUR_EMAIL";
+        final String fromPassword = "YOUR_PASSWORD";
+
         // Create a property for Session object 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
@@ -32,7 +35,7 @@ public class EmailService {
 		Authenticator auth = new Authenticator() {
             @Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("avinashee0012@gmail.com", "uwzosrvtzflbodva");
+				return new PasswordAuthentication(fromEmail, fromPassword);
 			}
 		};
 
@@ -42,7 +45,7 @@ public class EmailService {
         // Create a MimeMessage for email in the session
         MimeMessage email = new MimeMessage(session);
 
-        email.setFrom(new InternetAddress("avinashee0012@gmail.com"));
+        email.setFrom(new InternetAddress(fromEmail));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject("UMP Email Verification");
         email.setText("This is the test body! {verificationURL} will be placed here.");
