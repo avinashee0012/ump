@@ -9,8 +9,11 @@
   <body onload="getData()">
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
-            <span>UMP</span>
-            <span><a href="/logout"><button class="btn btn-outline-secondary">Logout</button></a></span>
+            <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
+            <span>
+                <a href="/register"><button class="btn btn-outline-success">Add User</button></a>
+                <a href="/logout.html"><button class="btn btn-outline-secondary">Logout</button></a>
+            </span>
         </h3>
     </div>
 
@@ -75,8 +78,15 @@
                     tr.appendChild(td6);
                     td7.innerHTML = `${result[i].isVerified}`;
                     tr.appendChild(td7);
-                    td8.innerHTML = `<a href="#"><i class="fa-solid fa-pen-to-square mx-2 edit" onclick="edit()"></i></a><a href="#"><i class="fa-solid fa-user-slash mx-2 remove" onclick="remove()" style="color: #d20f0f;"></i></a>`;
+                    td8.innerHTML = `<a href="#"><i class="fa-solid fa-user-slash mx-2" onclick="removeUser(${result[i].id})" style="color: #d20f0f;"></i></a>`;
                     tr.appendChild(td8);
+
+
+                    if(result[i].email == localStorage.getItem("email")) {
+                            tr.style.backgroundColor = "black";
+                            tr.style.color = "white";
+                            td8.innerHTML = "";
+                    }
                     
                     table.appendChild(tr);
 
@@ -86,13 +96,16 @@
             }
         }
 
-        function edit() {
-            alert("User edit function called!");
+        function removeUser(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                location.reload();
+            };
+            xhr.open("DELETE", "http://localhost:8080/view_user?id=" + id, true);
+            xhr.send();
+
         }
 
-        function remove() {
-            alert("User remove function called!");
-        }
     </script>
     </body>
 </html>

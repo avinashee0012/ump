@@ -10,10 +10,10 @@
     <title>Login</title>
 </head>
 
-<body>
+<body onload="pageSetup()">
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
-            <span>UMP</span>
+            <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
             <span><a href="/register"><button class="btn btn-outline-secondary">Register</button></a></span>
         </h3>
     </div>
@@ -46,6 +46,12 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
+        function pageSetup(){
+            if(localStorage.getItem("email") != null){
+                location.href = "http://localhost:8080/users.html";
+            }
+        }
+
         var login = document.getElementById("login").addEventListener("click", authLogin);
 
         function authLogin(e) {

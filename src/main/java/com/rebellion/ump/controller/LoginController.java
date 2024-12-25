@@ -23,11 +23,11 @@ public class LoginController {
     }
 
     @PostMapping(path = "/auth")
-    public ResponseEntity<HttpStatus> postLoginAuth(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> postLoginAuth(@RequestParam String email, @RequestParam String password) {
         if(email != null && password != null){
             User user = userService.searchByEmail(email);
             if(user.getPassword().equals(password)){
-                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
