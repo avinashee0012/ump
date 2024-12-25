@@ -1,6 +1,7 @@
 package com.rebellion.ump.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.rebellion.ump.entity.User;
 import com.rebellion.ump.repository.UserRepo;
@@ -25,6 +26,14 @@ public class UserService {
 
     public List<User> searchAllUsers(){
         return userRepo.findAll();
+    }
+
+    public User searchById(Long id){
+        return userRepo.findOneById(id);
+    }
+
+    public void deleteById(Long id){
+        userRepo.deleteById(id);
     }
 
 }

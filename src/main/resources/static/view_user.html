@@ -13,46 +13,45 @@
 <body onload="getData()">
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
-            <span>UMP</span>
+            <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
             <span><a href="/users"><button class="btn btn-outline-secondary">All Users</button></a></span>
         </h3>
     </div>
 
     <div class="container-fluid h-75">
-        <div class="container w-50 border">
+        <div class="container w-50">
             <h3 class="text-center mt-3">View User</h3>
-            <hr>
-            <table class="w-100 table table-hover">
-                <th class="w-25"></th>
-                <th class="w-75"></th>
-                <tr>
-                    <th><label class="m-2" for="name">Full Name: </label></th>
-                    <td id="name"><br></td>
-                </tr>
-                <tr>
-                    <th><label class="m-2" for="mobile">Mobile: </label></th>
-                    <td id="mobile"><br></td>
-                </tr>
-                <tr>
-                    <th><label class="m-2" for="email">Email: </label></th>
-                    <td id="email"><br></td>
-                </tr>
-                <tr>
-                    <th><label class="m-2" for="password">Password: </label></th>
-                    <td id="password"><br></td>
-                </tr>
-                <!-- <tr>
-                        <th><label class="m-2" for="dp">Profile Pic: </label></th>
-                        <td id="dp"><img id="dp_img" alt="dp" height="100" width="50"></td>
-                    </tr> -->
-                <tr>
-                    <th><label class="m-2" for="tfa">TFA: </label></th>
-                    <td id="tfa"><br></td>
-                </tr>
-                <tr>
-                    <th><label class="m-2" for="isVerified">isVerified: </label></th>
-                    <td id="isVerified"><br></td>
-                </tr>
+            <table class="w-100 table table-hover table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="w-25"><label class="m-2" for="name">Full Name: </label></th>
+                        <td class="w-75"><label id="name" class="pt-2"></label><br></td>
+                    </tr>
+                    <tr>
+                        <th><label class="m-2" for="mobile">Mobile: </label></th>
+                        <td><label id="mobile" class="pt-2"></label><br></td>
+                    </tr>
+                    <tr>
+                        <th><label class="m-2" for="email">Email: </label></th>
+                        <td><label id="email" class="pt-2"></label><br></td>
+                    </tr>
+                    <tr>
+                        <th><label class="m-2" for="password">Password: </label></th>
+                        <td><label id="password" class="pt-2"></label><br></td>
+                    </tr>
+                    <!-- <tr>
+                            <th><label class="m-2" for="dp">Profile Pic: </label></th>
+                            <td id="dp"><img id="dp_img" alt="dp" height="100" width="50"></td>
+                        </tr> -->
+                    <tr>
+                        <th><label class="m-2" for="tfa">TFA: </label></th>
+                        <td><label id="tfa" class="pt-2"></label><br></td>
+                    </tr>
+                    <tr>
+                        <th><label class="m-2" for="isVerified">isVerified: </label></th>
+                        <td><label id="isVerified" class="pt-2"></label><br></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
