@@ -27,7 +27,7 @@ public class ViewUserController {
     @GetMapping("view_user/{email}")
     public User getOneUser(@PathVariable String email) {
         User user = userService.searchByEmail(email);
-        user.setVerificationToken(hidden);
+        user.setToken(hidden);
         return user;
     }
 
@@ -42,7 +42,7 @@ public class ViewUserController {
     public List<User> getAllUsers() {
         List<User> users = userService.searchAllUsers();
         for(User user: users){
-            user.setVerificationToken(hidden);
+            user.setToken(hidden);
             user.setPassword(hidden);
         }
         return users;

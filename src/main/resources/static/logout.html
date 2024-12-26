@@ -31,6 +31,7 @@
         function pageSetup(){
             if(localStorage.getItem("email") != null || localStorage.getItem("email") != ""){
                 localStorage.removeItem("email");
+                localStorage.removeItem("name");
                 location.href = "http://localhost:8080/login.html";
             } else {
                 location.href = "http://localhost:8080/login.html";

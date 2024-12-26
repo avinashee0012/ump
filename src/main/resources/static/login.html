@@ -14,7 +14,9 @@
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
             <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
-            <span><a href="/register"><button class="btn btn-outline-secondary">Register</button></a></span>
+            <span>
+                <a href="/register"><button class="btn btn-outline-secondary">Register</button></a>
+            </span>
         </h3>
     </div>
 
@@ -34,6 +36,10 @@
                     <td><label class="m-2" for="password">Password: </label></td>
                     <td><input class="w-100" type="password" name="password" id="password"><br></td>
                 </tr>
+                <tr id="otp_row" style="display: none;">
+                    <td><label class="m-2" for="otp">Enter OTP: </label></td>
+                    <td><input class="w-100" type="text" name="otp" id="otp"><br></td>
+                </tr>
             </table>
             <button class="btn btn-primary m-2 w-100 text-center" id="login">Login</button>
         </div>
@@ -46,14 +52,15 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
-        function pageSetup(){
-            if(localStorage.getItem("email") != null){
+        function pageSetup() {
+            if (localStorage.getItem("email") != null) {
                 location.href = "http://localhost:8080/users.html";
             }
         }
 
         var login = document.getElementById("login").addEventListener("click", authLogin);
 
+        // Fix needed: This is sending 2 requests again on Status 307 due to click on login button
         function authLogin(e) {
             e.preventDefault();
             var xhr = new XMLHttpRequest();
@@ -61,6 +68,21 @@
                 if (this.readyState == 4 && this.status == 202) {
                     localStorage.setItem("email", email);
                     location.href = "http://localhost:8080/users.html";
+                } else if (this.readyState == 4 && this.status == 400) {
+                    alert("Email not verified. Please verify to be able to login.");
+                } else if (this.readyState == 4 && this.status == 307) {
+                    var otp_row = document.getElementById("otp_row");
+                    otp_row.style.display = "block";
+                    var otp_inp = otp.value;
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 202) {
+                            localStorage.setItem("email", email);
+                            location.href = "http://localhost:8080/users.html";
+                        }
+                    }
+                    xhr2.open("POST", `http://localhost:8080/login/twoStepAuth?email=${email}&password=${password}&otp=${otp_inp}`, true);
+                    xhr2.send();
                 } else if (this.readyState == 4) {
                     alert("Incorrect Email or Password!");
                 }
@@ -71,6 +93,7 @@
             xhr.send();
 
         }
+
     </script>
 </body>
 

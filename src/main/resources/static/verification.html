@@ -11,7 +11,11 @@
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
             <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
-            <span><a href="/users"><button class="btn btn-outline-secondary">All Users</button></a></span>
+            <span>
+                <a href="/users" id="all_users"><button class="btn btn-outline-secondary">All Users</button></a>
+                <a href="/login" id="login"><button class="btn btn-outline-secondary">Login</button></a>
+                <a href="/logout" id="logout"><button class="btn btn-outline-secondary">Logout</button></a>
+            </span>
         </h3>
     </div>
 
@@ -28,13 +32,25 @@
         function getData() {
             const urlParams = new URLSearchParams(window.location.search);
             const status = urlParams.get('status');
+
+            var all_users = document.getElementById("all_users");
+            var login = document.getElementById("login");
+            var logout = document.getElementById("logout");
+
+            if(localStorage.getItem("email")) {
+                login.style.display = "none";
+            } else {
+                all_users.style.display = "none";
+                logout.style.display = "none";
+            }
+
             var content = document.getElementById("content");
             if (status == "success") {
-                content.innerHTML = `<h5 class="text-success">Email Validated successfully! You can login now.</h5>`;
+                content.innerHTML = `<h5 class="text-success">Email Validated successfully! Please proceed to login.</h5>`;
             } else if (status == "alreadyVerified") {
-                content.innerHTML = `<h5 class="text-primary">Email already verified. Please proceed to login.</h5>`;
+                content.innerHTML = `<h5 class="text-primary">Email already verified! Please proceed to login.</h5>`;
             } else if (status == "error") {
-                content.innerHTML = `<h5 class="text-danger">Email verification failed. Please verify to be able to login.</h5>`;
+                content.innerHTML = `<h5 class="text-danger">Email verification failed! Please verify to be able to login.</h5>`;
             }
         }
     </script>    

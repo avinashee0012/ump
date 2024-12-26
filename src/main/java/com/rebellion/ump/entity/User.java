@@ -23,7 +23,7 @@ public class User {
     @Column
     private Boolean isVerified = false;
     @Column
-    private String verificationToken = "";
+    private String token = "";
     @Column
     private String password;
     // Fix Required: Image is not saving and displaying properly
