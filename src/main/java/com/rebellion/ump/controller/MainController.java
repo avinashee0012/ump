@@ -38,5 +38,10 @@ public class MainController {
     public ModelAndView getViewUserPage() {
         return new ModelAndView("redirect:/view_user.html");
     }
+
+    @GetMapping("logout")
+    public ModelAndView getLogoutPage() {
+        return new ModelAndView("redirect:/logout.html");
+    }
     
 }

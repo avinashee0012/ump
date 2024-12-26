@@ -8,8 +8,6 @@ import com.rebellion.ump.entity.User;
 import com.rebellion.ump.service.EmailService;
 import com.rebellion.ump.service.UserService;
 
-import java.util.HashMap;
-
 import javax.mail.MessagingException;
 
 import org.springframework.http.MediaType;
@@ -23,9 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegisterController {
 
     private UserService userService;
+    private EmailService emailService;
 
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @SuppressWarnings("null")
@@ -56,7 +56,7 @@ public class RegisterController {
         user.setMobile(mobile);
         user.setPassword(password);
         // DP Algo to be created
-        user.setVerificationToken(EmailService.sendVerificationEmail(email).getBody().toString());
+        user.setToken(emailService.sendVerificationEmail(email).getBody().toString());
         userService.saveUser(user);
         
         return new ModelAndView("redirect:/register.html?status=success");
@@ -66,12 +66,13 @@ public class RegisterController {
     public ModelAndView verifyEmail(@PathVariable String email, @RequestParam String token) {
         if(userService.searchByEmail(email) != null){
             User user = userService.searchByEmail(email);
-            if (!user.getIsVerified() && token.equals(user.getVerificationToken())) {
+            if (user.getIsVerified()) {
+                return new ModelAndView("redirect:/verification.html?status=alreadyVerified");
+            } else if (!user.getIsVerified() && token.equals(user.getToken())) {
                 user.setIsVerified(true);
+                user.setToken("");
                 userService.saveUser(user);
                 return new ModelAndView("redirect:/verification.html?status=success");
-            } else if (user.getIsVerified()) {
-                return new ModelAndView("redirect:/verification.html?status=alreadyVerified");
             }
         }
         return new ModelAndView("redirect:/verification.html?status=error");

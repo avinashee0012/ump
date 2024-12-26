@@ -14,13 +14,16 @@
     <div class="container-fluid text-light bg-dark p-3">
         <h3 class="d-flex justify-content-between mx-3">
             <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
-            <span><a href="/users"><button class="btn btn-outline-secondary">All Users</button></a></span>
+            <span>
+                <p class="mx-2 text-success d-inline" id="fname" style="font-size: small;"></p>
+                <a href="/users"><button class="btn btn-outline-secondary">All Users</button></a>
+            </span>
         </h3>
     </div>
 
     <div class="container-fluid h-75">
         <div class="container w-50">
-            <h3 class="text-center mt-3">View User</h3>
+            <h3 class="text-center my-3">View User</h3>
             <table class="w-100 table table-hover table-bordered">
                 <tbody>
                     <tr>
@@ -64,6 +67,7 @@
         crossorigin="anonymous"></script>
     <script>
         async function getData() {
+            var fname = document.getElementById("fname");
             const urlParams = new URLSearchParams(window.location.search);
             const user_email = urlParams.get('email');
             const url = "http://localhost:8080/view_user/" + user_email;
@@ -90,6 +94,10 @@
                 tfa.innerText = result.tfa;
                 var isVerified = document.getElementById("isVerified");
                 isVerified.innerText = result.isVerified;
+
+                if(localStorage.getItem("name")){
+                    fname.innerText = `Hello ${localStorage.getItem("name")}`;
+                }
             } catch (error) {
                 console.error(error.message);
             }
