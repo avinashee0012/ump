@@ -24,24 +24,33 @@
         <div class="container w-50 border p-3">
             <h3 class="text-center my-2">Login Form</h3>
             <hr>
+            <div class="container w-100 bg-light p-1 text-center" id="validation_msg"></div>
             <table class="w-100">
-                <th class="w-25"></th>
-                <th class="w-75"></th>
-                <tr>
-                    <!-- If userid is not verified, show client side error on focusout -->
-                    <td><label class="m-2" for="email">Email: </label></td>
-                    <td><input class="w-100" type="email" name="email" id="email"><br></td>
-                </tr>
-                <tr>
-                    <td><label class="m-2" for="password">Password: </label></td>
-                    <td><input class="w-100" type="password" name="password" id="password"><br></td>
-                </tr>
-                <tr id="otp_row" style="display: none;">
-                    <td><label class="m-2" for="otp">Enter OTP: </label></td>
-                    <td><input class="w-100" type="text" name="otp" id="otp"><br></td>
-                </tr>
+                <thead>
+                    <th class="w-25"></th>
+                    <th class="w-75"></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- If userid is not verified, show client side error on focusout -->
+                        <th><label class="m-2" for="email">Email: </label></th>
+                        <td><input class="w-100" type="email" name="email" id="email"><br></td>
+                    </tr>
+                    <tr>
+                        <th><label class="m-2" for="password">Password: </label></th>
+                        <td><input class="w-100" type="password" name="password" id="password"><br></td>
+                    </tr>
+                    <tr>
+                        <th><label class="otp_row m-2" for="otp">Enter OTP: </label></th>
+                        <td><input class="otp_row w-100" type="text" name="otp" id="otp"><br></td>
+                    </tr>
+                </tbody>
             </table>
-            <button class="btn btn-primary m-2 w-100 text-center" id="login">Login</button>
+            <button class="btn btn-primary w-100 text-center" id="login">Login</button>
+            <div class="text-center">
+                <label class="small mx-2" for="save_pass">Save Password: </label><input type="checkbox" class=" align-middle" id="save_pass" id="save_pass">
+            </div>
+            <div class="text-center small m-3"><a href="#" >Forgot Password</a></div>
         </div>
     </div>
 
@@ -58,40 +67,44 @@
             }
         }
 
+        var validation_msg = document.getElementById("validation_msg");
+        validation_msg.style.display = "none";
+
+        var otp_row = document.querySelectorAll(".otp_row");        
+        for (let i = 0; i < otp_row.length; i++) {
+           otp_row[i].style.visibility = "hidden";
+           
+        }
+
+        var otp = document.getElementById("otp");
+
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+
         var login = document.getElementById("login").addEventListener("click", authLogin);
 
-        // Fix needed: This is sending 2 requests again on Status 307 due to click on login button
         function authLogin(e) {
             e.preventDefault();
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 202) {
-                    localStorage.setItem("email", email);
+                    localStorage.setItem("email", email.value);
                     location.href = "http://localhost:8080/users.html";
                 } else if (this.readyState == 4 && this.status == 400) {
-                    alert("Email not verified. Please verify to be able to login.");
+                    validation_msg.style.display = "block";
+                    validation_msg.innerText = "Email not verified. Please verify to be able to login.";
                 } else if (this.readyState == 4 && this.status == 307) {
-                    var otp_row = document.getElementById("otp_row");
-                    otp_row.style.display = "block";
-                    var otp_inp = otp.value;
-                    var xhr2 = new XMLHttpRequest();
-                    xhr2.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 202) {
-                            localStorage.setItem("email", email);
-                            location.href = "http://localhost:8080/users.html";
-                        }
+                    validation_msg.style.display = "block";
+                    validation_msg.innerText = "Please enter 2-step authentication OTP";
+                    for (let i = 0; i < otp_row.length; i++) {
+                        otp_row[i].style.visibility = "visible";
                     }
-                    xhr2.open("POST", `http://localhost:8080/login/twoStepAuth?email=${email}&password=${password}&otp=${otp_inp}`, true);
-                    xhr2.send();
                 } else if (this.readyState == 4) {
                     alert("Incorrect Email or Password!");
                 }
             };
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            xhr.open("POST", `http://localhost:8080/login/auth?email=${email}&password=${password}`, true);
+            xhr.open("POST", `http://localhost:8080/login/auth?email=${email.value}&password=${password.value}&otp=${otp.value}`, true);
             xhr.send();
-
         }
 
     </script>

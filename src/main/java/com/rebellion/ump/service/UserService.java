@@ -32,8 +32,18 @@ public class UserService {
         return userRepo.findOneById(id);
     }
 
-    public void deleteById(Long id){
+    public void deleteUserById(Long id){
         userRepo.deleteById(id);
+    }
+
+    public User updateUserByEmail(User user_inp){
+        User db_user = userRepo.findByEmail(user_inp.getEmail());
+        db_user.setName(user_inp.getName());
+        db_user.setMobile(user_inp.getMobile());
+        db_user.setPassword(user_inp.getPassword());
+        db_user.setTfa(user_inp.getTfa());
+        db_user.setIsVerified(user_inp.getIsVerified());
+        return userRepo.save(db_user);
     }
 
 }

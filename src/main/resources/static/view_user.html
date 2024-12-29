@@ -56,6 +56,7 @@
                     </tr>
                 </tbody>
             </table>
+            <a id="edit_user_button"><button class="btn btn-outline-success mb-3 w-100">Edit User</button></a>
         </div>
     </div>
 
@@ -68,6 +69,7 @@
     <script>
         async function getData() {
             var fname = document.getElementById("fname");
+            var edit_user_button = document.getElementById("edit_user_button");
             const urlParams = new URLSearchParams(window.location.search);
             const user_email = urlParams.get('email');
             const url = "http://localhost:8080/view_user/" + user_email;
@@ -94,6 +96,8 @@
                 tfa.innerText = result.tfa;
                 var isVerified = document.getElementById("isVerified");
                 isVerified.innerText = result.isVerified;
+
+                edit_user_button.setAttribute("href", `/edit_user.html?email=${result.email}`);
 
                 if(localStorage.getItem("name")){
                     fname.innerText = `Hello ${localStorage.getItem("name")}`;

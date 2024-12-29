@@ -70,7 +70,7 @@ public class RegisterController {
                 return new ModelAndView("redirect:/verification.html?status=alreadyVerified");
             } else if (!user.getIsVerified() && token.equals(user.getToken())) {
                 user.setIsVerified(true);
-                user.setToken("");
+                user.setToken("" + (int) Math.random());
                 userService.saveUser(user);
                 return new ModelAndView("redirect:/verification.html?status=success");
             }
