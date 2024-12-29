@@ -3,7 +3,6 @@ package com.rebellion.ump.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.rebellion.ump.entity.User;
 import com.rebellion.ump.service.EmailService;
@@ -29,31 +28,22 @@ public class LoginController {
 
     @SuppressWarnings("null")
     @PostMapping(path = "/auth")
-    public ResponseEntity<?> postLoginAuth(@RequestParam String email, @RequestParam String password)
+    public ResponseEntity<?> postLoginAuth(@RequestParam String email, @RequestParam String password, @RequestParam String otp)
             throws MessagingException {
         if (email != null && password != null) {
             User user = userService.searchByEmail(email);
             if (!user.getIsVerified()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } else if (user.getPassword().equals(password) && !user.getTfa()) {
+            } else if (!user.getTfa() && user.getPassword().equals(password)) {
                 return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
-            } else if (user.getPassword().equals(password) && user.getTfa()) {
+            } else if (user.getTfa() && user.getPassword().equals(password) && user.getToken().equals(otp) ) {
+                return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+            } else if (user.getTfa() && user.getPassword().equals(password)) {
                 String twoStepOTP = emailService.twoStepAuthentication(email).getBody().toString();
                 user.setToken(twoStepOTP);
                 userService.saveUser(user);
                 return new ResponseEntity<>(HttpStatus.TEMPORARY_REDIRECT);
             }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    @PostMapping(path = "/twoStepAuth")
-    public ResponseEntity<?> twoStepAuth(@RequestParam String email, @RequestParam String password, @RequestParam String otp) {
-        User user = userService.searchByEmail(email);
-        System.out.println(user.getPassword().equals(password));
-        System.out.println(user.getToken().equals(otp));
-        if (user.getPassword().equals(password) && user.getToken().equals(otp)) {
-            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }

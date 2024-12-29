@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Register</title>
+</head>
+
+<body onload="getData()">
+    <div class="container-fluid text-light bg-dark p-3">
+        <h3 class="d-flex justify-content-between mx-3">
+            <span><a href="/" class="text-decoration-none text-light">UMP</a></span>
+            <span>
+                <p class="mx-2 text-success d-inline" id="fname" style="font-size: small;"></p>
+                <a href="/users"><button class="btn btn-outline-secondary">All Users</button></a>
+            </span>
+        </h3>
+    </div>
+
+    <div class="container-fluid h-75">
+        <div class="container w-50">
+            <h3 class="text-center my-3">View User</h3>
+            <form id="edit_user_form">
+                <table class="w-100 table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="w-25"><label class="m-2" for="name">Full Name: </label></th>
+                            <td class="w-75"><input type="text" id="name" class="pt-2 w-100 form-control"></input><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label class="m-2" for="mobile">Mobile: </label></th>
+                            <td><input type="text" id="mobile" class="pt-2 w-100 form-control"></input><br></td>
+                        </tr>
+                        <tr>
+                            <th><label class="m-2" for="email">Email: </label></th>
+                            <td><input id="email" class="pt-2 w-100 form-control" type="text" disabled readonly></input><br></td>
+                        </tr>
+                        <tr>
+                            <th><label class="m-2" for="password">Password: </label></th>
+                            <td><input type="text" id="password" class="pt-2 w-100 form-control"></input><br></td>
+                        </tr>
+                        <!-- <tr>
+                                <th><label class="m-2" for="dp">Profile Pic: </label></th>
+                                <td id="dp"><img id="dp_img" alt="dp" height="100" width="50"></td>
+                            </tr> -->
+                        <tr>
+                            <th><label class="m-2" for="tfa">TFA: </label></th>
+                            <td><select name="tfa" id="tfa" class="form-control w-100">
+                                <option value=false>Off</option>
+                                <option value=true>On</option>
+                            </select>
+                                <br></td>
+                        </tr>
+                        <tr>
+                            <th><label class="m-2" for="isVerified">isVerified: </label></th>
+                            <td><input id="isVerified" class="pt-2 w-100 form-control" type="text" disabled readonly></input><br></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="done_button" class="btn btn-outline-success mb-3 w-100">Done</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="container-fluid text-light bg-dark p-3">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        var done_button = document.getElementById("done_button");
+
+        async function getData() {
+            var fname = document.getElementById("fname");
+            
+            var name = document.getElementById("name");
+            var mobile = document.getElementById("mobile");
+            var email = document.getElementById("email");
+            var password = document.getElementById("password");
+            var tfa = document.getElementById("tfa");
+            var isVerified = document.getElementById("isVerified");
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const user_email = urlParams.get('email');
+            const url = "http://localhost:8080/view_user/" + user_email;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                name.value = result.name;
+                mobile.value = result.mobile;
+                email.value = result.email;
+                password.value = result.password;
+                tfa.value = Boolean(result.tfa);
+                isVerified.value = result.isVerified;
+
+                done_button.addEventListener("click", updateUser);
+
+                if (localStorage.getItem("name")) {
+                    fname.innerText = `Hello ${localStorage.getItem("name")}`;
+                }
+            } catch (error) {
+                console.error(error.message);
+            }
+
+        }
+
+        async function updateUser(event) {
+            event.preventDefault();
+            const formData = {
+                name: document.getElementById("name").value,
+                mobile: document.getElementById("mobile").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                tfa: document.getElementById("tfa").value,
+                isVerified: document.getElementById("isVerified").value
+            };
+
+            const response = await fetch("/edit_user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                location.href = `http://localhost:8080/view_user.html?email=${result.email}`;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

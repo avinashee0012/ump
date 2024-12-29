@@ -23,7 +23,7 @@
         <div class="container w-50 border pt-3">
             <h3 class="text-center my-2" id="form_title"></h3>
             <hr>
-            <div class="container w-100 bg-light p-1 text-center"><h6 id="validation_msg"></h6></div>
+            <div class="container w-100 bg-light p-1 text-center" id="validation_msg"></div>
             <form class="p-3" action="/register" method="post" enctype="multipart/form-data">
                 <table class="w-100">
                     <th class="w-25"></th>
@@ -50,7 +50,7 @@
                         <td><input class="w-100" type="file" name="dp" id="dp"></td>
                     </tr> -->
                 </table>
-                <button  class="btn btn-primary m-2 w-100 text-center">Register</button>
+                <button class="btn btn-primary m-2 w-100 text-center">Register</button>
             </form>
         </div>
     </div>
@@ -68,6 +68,7 @@
             var logout_button = document.getElementById("logout_button");
 
             var form_title = document.getElementById("form_title");
+            var register_button = document.getElementById("register_button"); 
 
             if(localStorage.getItem("email")){
                 login_button.style.display = "none";
@@ -82,11 +83,14 @@
 
             const urlParams = new URLSearchParams(window.location.search);
             var validation_msg = document.getElementById("validation_msg");
+            validation_msg.style.display = "none";
             const status = urlParams.get('status');
             if (status == "success") {
-                    validation_msg.innerText = "Registration Successful! Verification email sent.";
+                validation_msg.style.display = "block";
+                validation_msg.innerText = "Registration Successful! Verification email sent.";
             } else if (status == "error") {
-                    validation_msg.innerText = "Registration failed! Please try again.";
+                validation_msg.style.display = "block";
+                validation_msg.innerText = "Registration failed! Please try again.";
             }    
         }
 
