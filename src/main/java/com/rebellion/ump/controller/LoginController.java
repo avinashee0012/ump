@@ -3,6 +3,7 @@ package com.rebellion.ump.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.rebellion.ump.entity.User;
 import com.rebellion.ump.service.EmailService;
@@ -12,7 +13,9 @@ import javax.mail.MessagingException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("login")
@@ -48,4 +51,28 @@ public class LoginController {
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @PostMapping("recovery")
+    public ResponseEntity<?> updatePassword(@RequestParam String email, @RequestParam String otp, @RequestParam String new_password) {
+        User user = userService.searchByEmail(email);
+        if(user.getToken().equals(otp)) {
+            user.setPassword(new_password);
+            userService.saveUser(user);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @SuppressWarnings("null")
+    @GetMapping("recovery")
+    public ResponseEntity<?> sendUpdatePasswordOTP(@RequestParam String email) throws MessagingException {
+        User user = userService.searchByEmail(email);
+        if (user != null) {
+            String token = emailService.forgotPasswordEmail(email).getBody().toString();
+            user.setToken(token);
+            userService.saveUser(user);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+    }
+    
 }
