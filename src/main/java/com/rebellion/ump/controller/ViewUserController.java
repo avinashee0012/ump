@@ -35,8 +35,11 @@ public class ViewUserController {
     }
 
     @PostMapping("/edit_user")
-    public User updateUser(@RequestBody User user_inp) {
-        return userService.updateUserByEmail(user_inp);
+    public String updateUser(@RequestBody User user_inp) {
+        if (userService.searchByEmail(user_inp.getEmail()) != null) {
+            return userService.updateUserByEmail(user_inp).toString();
+        } 
+        return "User doesn't exist. You need to register first";
     }
 
     @DeleteMapping("view_user")
