@@ -15,9 +15,11 @@ ____
 - Bootstrap
 ____
 
-Home Page: http://localhost:8080/
+Home Page: `http://localhost:8080/`
 
-Swagger-UI Page: http://localhost:8080/swagger-ui/index.html
+Swagger-UI Page: `http://localhost:8080/swagger-ui/index.html`
+
+### ***NOTE: This project has bugs and unimplement features. It is a work in progress.***
 
 
 
