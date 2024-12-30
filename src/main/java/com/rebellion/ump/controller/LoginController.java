@@ -3,7 +3,6 @@ package com.rebellion.ump.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.rebellion.ump.entity.User;
 import com.rebellion.ump.service.EmailService;
