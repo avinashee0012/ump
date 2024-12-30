@@ -19,38 +19,42 @@
         </h3>
     </div>
 
-    <div class="container-fluid h-75">
-        <div class="container w-50 border pt-3">
+    <div class="container-fluid5">
+        <div class="container w-50 border p-3">
             <h3 class="text-center my-2" id="form_title"></h3>
             <hr>
-            <div class="container w-100 bg-light p-1 text-center" id="validation_msg"></div>
+            <div class="container w-100 p-1 text-center alert alert-warning" id="validation_msg" role="alert"></div>
             <form class="p-3" action="/register" method="post" enctype="multipart/form-data">
                 <table class="w-100">
-                    <th class="w-25"></th>
-                    <th class="w-75"></th>
-                    <tr>
-                        <td><label class="m-2" for="name">Full Name: </label></td>
-                        <td><input class="w-100" type="text" name="name" id="name"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="mobile">Mobile: </label></td>
-                        <td><input class="w-100" type="text" name="mobile" id="mobile"></td>
-                    </tr>
-                    <tr>
-                        <!-- This needs to be client side validated before form submission -->
-                        <td><label class="m-2" for="email">Email: </label></td>
-                        <td><input class="w-100" type="email" name="email" id="email"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="m-2" for="password">Password: </label></td>
-                        <td><input class="w-100" type="password" name="password" id="password"></td>
-                    </tr>
-                    <!-- <tr>
-                        <td><label class="m-2" for="dp">Profile Pic: </label></td>
-                        <td><input class="w-100" type="file" name="dp" id="dp"></td>
-                    </tr> -->
+                    <thead>
+                        <th class="w-25"></th>
+                        <th class="w-75"></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><label class="form-label" for="name">Full Name: </label></th>
+                            <td><input class="w-100 form-control" type="text" name="name" id="name"><br></td>
+                        </tr>
+                        <tr>
+                            <th><label class="form-label" for="mobile">Mobile: </label></th>
+                            <td><input class="w-100 form-control" type="text" name="mobile" id="mobile"><br></td>
+                        </tr>
+                        <tr>
+                            <!-- This needs to be client side validated before form submission -->
+                            <th><label class="form-label" for="email">Email: </label></th>
+                            <td><input class="w-100 form-control" type="email" name="email" id="email"><br></td>
+                        </tr>
+                        <tr>
+                            <th><label class="form-label" for="password">Password: </label></th>
+                            <td><input class="w-100 form-control" type="password" name="password" id="password"><br></td>
+                        </tr>
+                        <!-- <tr>
+                            <td><label class="m-2" for="dp">Profile Pic: </label></td>
+                            <td><input class="w-100" type="file" name="dp" id="dp"></td>
+                        </tr> -->
+                    </tbody>
                 </table>
-                <button class="btn btn-primary m-2 w-100 text-center">Register</button>
+                <button class="btn btn-primary w-100 text-center form-control">Register</button>
             </form>
         </div>
     </div>

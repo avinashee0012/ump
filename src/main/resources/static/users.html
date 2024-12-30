@@ -20,7 +20,7 @@
 
     <div class="container-fluid">
         <div class="container border p-3">
-            <h3 class="text-center my-2">All Users</h3>
+            <h3 class="text-center my-2">Admin Portal</h3>
             <hr>
             <table class="w-100 table table-hover">
                 <thead>
@@ -87,8 +87,6 @@
 
 
                     if(result[i].email == localStorage.getItem("email")) {
-                            tr.style.backgroundColor = "black";
-                            tr.style.color = "white";
                             td8.innerHTML = "";
                             if(localStorage.getItem("name") == null){
                                 const first_name = (result[i].name).split(" ")[0];
