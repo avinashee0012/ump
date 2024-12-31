@@ -31,12 +31,10 @@ public class ViewUserController {
         return user;
     }
 
+//    This should update the data only if user exists already.
     @PostMapping("/edit_user")
-    public String updateUser(@RequestBody User user_inp) {
-        if (userService.searchByEmail(user_inp.getEmail()) != null) {
-            return userService.updateUserByEmail(user_inp).toString();
-        } 
-        return "User doesn't exist. You need to register first";
+    public User updateUser(@RequestBody User user_inp) {
+        return userService.updateUserByEmail(user_inp);
     }
 
     @DeleteMapping("view_user")

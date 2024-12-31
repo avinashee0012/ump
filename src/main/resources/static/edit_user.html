@@ -29,25 +29,21 @@
                     <tbody>
                         <tr>
                             <th class="w-25"><label class="m-2" for="name">Full Name: </label></th>
-                            <td class="w-75"><input type="text" id="name" class="pt-2 w-100 form-control"></input><br>
+                            <td class="w-75"><input type="text" id="name" class="pt-2 w-100 form-control"><br>
                             </td>
                         </tr>
                         <tr>
                             <th><label class="m-2" for="mobile">Mobile: </label></th>
-                            <td><input type="text" id="mobile" class="pt-2 w-100 form-control"></input><br></td>
+                            <td><input type="text" id="mobile" class="pt-2 w-100 form-control"><br></td>
                         </tr>
                         <tr>
                             <th><label class="m-2" for="email">Email: </label></th>
-                            <td><input id="email" class="pt-2 w-100 form-control" type="text" disabled readonly></input><br></td>
+                            <td><input id="email" class="pt-2 w-100 form-control" type="text" disabled readonly><br></td>
                         </tr>
                         <tr>
                             <th><label class="m-2" for="password">Password: </label></th>
-                            <td><input type="text" id="password" class="pt-2 w-100 form-control"></input><br></td>
+                            <td><input type="text" id="password" class="pt-2 w-100 form-control"><br></td>
                         </tr>
-                        <!-- <tr>
-                                <th><label class="m-2" for="dp">Profile Pic: </label></th>
-                                <td id="dp"><img id="dp_img" alt="dp" height="100" width="50"></td>
-                            </tr> -->
                         <tr>
                             <th><label class="m-2" for="tfa">TFA: </label></th>
                             <td><select name="tfa" id="tfa" class="form-control w-100">
@@ -58,7 +54,7 @@
                         </tr>
                         <tr>
                             <th><label class="m-2" for="isVerified">isVerified: </label></th>
-                            <td><input id="isVerified" class="pt-2 w-100 form-control" type="text" disabled readonly></input><br></td>
+                            <td><input id="isVerified" class="pt-2 w-100 form-control" type="text" disabled readonly><br></td>
                         </tr>
                     </tbody>
                 </table>
@@ -102,7 +98,7 @@
                 mobile.value = result.mobile;
                 email.value = result.email;
                 password.value = result.password;
-                tfa.value = Boolean(result.tfa);
+                tfa.value = result.tfa;
                 isVerified.value = result.isVerified;
 
                 done_button.addEventListener("click", updateUser);

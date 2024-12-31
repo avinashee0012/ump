@@ -18,7 +18,7 @@ import javax.mail.Transport;
 
 @Service
 public class EmailService {
-    
+
     String fromEmail = "YOUR_EMAIL";
     String fromPassword = "YOUR_PASSWORD";
 

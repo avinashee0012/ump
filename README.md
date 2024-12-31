@@ -1,9 +1,9 @@
-## **User Managerment Portal**
+## **User Management Portal**
 ____
 ### **Technologies Used:**
 
 **Backend:**
-- Springboot
+- Spring boot
 - JPA
 - MySQL
 - Java Mail
@@ -19,7 +19,7 @@ Home Page: `http://localhost:8080/`
 
 Swagger-UI Page: `http://localhost:8080/swagger-ui/index.html`
 
-### ***NOTE: This project has bugs and unimplement features. It is a work in progress.***
+### ***NOTE: This project has bugs and unimplemented features. It is a work in progress.***
 
 
 
